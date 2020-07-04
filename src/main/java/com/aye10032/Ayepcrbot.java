@@ -34,7 +34,7 @@ public class Ayepcrbot extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
         appDirectory = CQ.getAppDirectory();
         System.out.println(appDirectory);
         loadUtil = new LoadUtil(appDirectory);
-        personUtil = new PersonUtil(appDirectory, CC);
+        personUtil = new PersonUtil(appDirectory, CC, loadUtil);
 
         return 0;
     }
@@ -62,7 +62,12 @@ public class Ayepcrbot extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
     @Override
     public int groupMsg(int subType, int msgId, long fromGroup, long fromQQ, String fromAnonymous, String msg, int font) {
         if (msg.startsWith("报刀")) {
-            CQ.sendGroupMsg(fromGroup, personUtil.addKnife(fromQQ, fromGroup, msg));
+            if (CC.getCQImages(msg).size() != 0){
+                CQ.sendGroupMsg(fromGroup, personUtil.addKnife(fromQQ, fromGroup, CC.getCQImages(msg)));
+            }else {
+                CQ.sendGroupMsg(fromGroup, personUtil.addKnife(fromQQ, fromGroup, msg));
+            }
+
         }else if (msg.equals("创建公会")) {
             CQ.sendGroupMsg(fromGroup, personUtil.initParty(fromGroup));
         }else if (msg.startsWith("注册角色")) {
