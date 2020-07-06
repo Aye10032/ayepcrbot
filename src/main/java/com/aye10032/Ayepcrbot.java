@@ -1,9 +1,7 @@
 package com.aye10032;
 
 import com.aye10032.util.CQMsg;
-import com.aye10032.util.LoadUtil;
-import com.aye10032.util.OCRUtil;
-import com.aye10032.util.PersonUtil;
+import com.aye10032.util.CheruUtil;
 import org.meowy.cqp.jcq.entity.CoolQ;
 import org.meowy.cqp.jcq.entity.ICQVer;
 import org.meowy.cqp.jcq.entity.IMsg;
@@ -12,8 +10,7 @@ import org.meowy.cqp.jcq.event.JcqAppAbstract;
 
 public class Ayepcrbot extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 
-    PersonUtil personUtil;
-    LoadUtil loadUtil;
+    CheruUtil cheruUtil;
 
     public Ayepcrbot() {
 
@@ -32,9 +29,7 @@ public class Ayepcrbot extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
     @Override
     public int startup() {
         appDirectory = CQ.getAppDirectory();
-        System.out.println(appDirectory);
-        loadUtil = new LoadUtil(appDirectory);
-        personUtil = new PersonUtil(appDirectory, CC, loadUtil);
+        cheruUtil = new CheruUtil();
 
         return 0;
     }
@@ -61,17 +56,11 @@ public class Ayepcrbot extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
 
     @Override
     public int groupMsg(int subType, int msgId, long fromGroup, long fromQQ, String fromAnonymous, String msg, int font) {
-        if (msg.startsWith("报刀")) {
-            if (CC.getCQImages(msg).size() != 0){
-                CQ.sendGroupMsg(fromGroup, personUtil.addKnife(fromQQ, fromGroup, CC.getCQImages(msg)));
-            }else {
-                CQ.sendGroupMsg(fromGroup, personUtil.addKnife(fromQQ, fromGroup, msg));
-            }
-
-        }else if (msg.equals("创建公会")) {
-            CQ.sendGroupMsg(fromGroup, personUtil.initParty(fromGroup));
-        }else if (msg.startsWith("注册角色")) {
-            CQ.sendGroupMsg(fromGroup, personUtil.initPerson(fromGroup,fromQQ,msg));
+        if (msg.startsWith("切噜") && (msg.split(" ").length == 2)) {
+            CQ.sendGroupMsg(fromGroup, cheruUtil.toCheru(msg.split(" ")[1]));
+        } else if (msg.startsWith("切噜～[CQ:emoji,id=9834]")) {
+            msg = msg.replace("[CQ:emoji,id=9834]","♪");
+            CQ.sendGroupMsg(fromGroup, cheruUtil.toStr(msg));
         }
         return 0;
     }
