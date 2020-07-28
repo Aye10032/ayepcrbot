@@ -57,14 +57,14 @@ public class CheruUtil {
 
         msg = msg.substring(msg.indexOf("切噜～♪") + 4);
         String[] msgs = msg.split(split_text);
-        System.out.println(Arrays.toString(msgs));
+//        System.out.println(Arrays.toString(msgs));
 
         for (String word : msgs) {
             Matcher matcher = pattern.matcher(word);
             if (!matcher.find()) {
                 if (word.startsWith("切")) {
                     word = word.substring(1);
-                    System.out.println(word);
+//                    System.out.println(word);
                     char[] thischar = word.toCharArray();
                     List<Byte> bytes = new ArrayList<>();
                     for (int i = 0; i < thischar.length; i+=2) {
@@ -72,7 +72,7 @@ public class CheruUtil {
                         int x2 = Arrays.binarySearch(chars,thischar[i+1]);
 
                         int x = x2 << 4 | x1;
-                        System.out.println(x1 + " " + x2 + " " + x);
+//                        System.out.println(x1 + " " + x2 + " " + x);
                         bytes.add((byte) x);
                     }
                     byte[] bt = new byte[bytes.size()];

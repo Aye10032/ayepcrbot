@@ -50,7 +50,13 @@ public class Ayepcrbot extends JcqAppAbstract implements ICQVer, IMsg, IRequest 
     }
 
     @Override
-    public int privateMsg(int i, int i1, long l, String s, int i2) {
+    public int privateMsg(int subType, int msgId, long fromQQ, String msg, int font) {
+        if (msg.startsWith("切噜") && (msg.split(" ").length == 2)) {
+            CQ.sendPrivateMsg(fromQQ, cheruUtil.toCheru(msg.split(" ")[1]));
+        } else if (msg.startsWith("切噜～[CQ:emoji,id=9834]")) {
+            msg = msg.replace("[CQ:emoji,id=9834]","♪");
+            CQ.sendPrivateMsg(fromQQ, cheruUtil.toStr(msg));
+        }
         return 0;
     }
 
