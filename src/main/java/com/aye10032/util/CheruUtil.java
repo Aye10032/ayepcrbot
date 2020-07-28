@@ -34,7 +34,6 @@ public class CheruUtil {
                 int bit;
                 StringBuilder sb = new StringBuilder();
                 sb.append("切");
-
                 for (int i = 0; i < bs.length / 2; i++) {
                     bit = bs[i] & 0x0f;
                     sb.append(chars[bit]);
@@ -42,13 +41,11 @@ public class CheruUtil {
                     bit = (bs[i] & 0x0f0) >> 4;
                     sb.append(chars[bit]);
                 }
-
                 stringBuilder.append(sb.toString());
             } else {
                 stringBuilder.append(word);
             }
         }
-
         return stringBuilder.toString();
     }
 
@@ -57,22 +54,18 @@ public class CheruUtil {
 
         msg = msg.substring(msg.indexOf("切噜～♪") + 4);
         String[] msgs = msg.split(split_text);
-//        System.out.println(Arrays.toString(msgs));
 
         for (String word : msgs) {
             Matcher matcher = pattern.matcher(word);
             if (!matcher.find()) {
                 if (word.startsWith("切")) {
                     word = word.substring(1);
-//                    System.out.println(word);
                     char[] thischar = word.toCharArray();
                     List<Byte> bytes = new ArrayList<>();
                     for (int i = 0; i < thischar.length; i+=2) {
                         int x1 = Arrays.binarySearch(chars,thischar[i]);
                         int x2 = Arrays.binarySearch(chars,thischar[i+1]);
-
                         int x = x2 << 4 | x1;
-//                        System.out.println(x1 + " " + x2 + " " + x);
                         bytes.add((byte) x);
                     }
                     byte[] bt = new byte[bytes.size()];
@@ -85,7 +78,6 @@ public class CheruUtil {
                 stringBuilder.append(word);
             }
         }
-
         return stringBuilder.toString();
     }
 
